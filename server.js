@@ -5,7 +5,7 @@ const apiRouter = require('./api-router')
 
 const server = express()
 server.use(helmet())
-server.use(expres.json())
+server.use(express.json())
 server.use(cors())
 
 server.use('/api', apiRouter)

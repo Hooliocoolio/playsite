@@ -7,6 +7,10 @@ const hr = require('./routes/hacks-routes')
 const ur = require('./routes/user-routes')
 
 router.use('/hacks', hr)
+ 
+
 router.use('/users', ur)
+ 
+ 
 
 module.exports = router;
