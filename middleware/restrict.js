@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken')
 
 
-function restrict() {
+function restrict(role) {
+    const roles =["basic", "admin", "superadmin"]
     return async (req,res, next) => {
         const authError = {
             Message: "Invalid Credentials"
         }
 
         try {
-            const token = req.headers.authorization
+            const token = req.cookies.token
             if (!token) {
                 return res.status(401).json(authError)
             }
@@ -18,6 +19,16 @@ function restrict() {
                 if  (err) {
                     return res.status(401).json(authError)
                 }
+                /*  check userrole should =  role  */
+                
+                if (role && roles.indexOf(decoded.userRole) < roles.indexOf(role)) {
+                    return res.status(403).json({
+                        Forbidden: 'YOu are not allowed here'
+                    })
+                } 
+
+
+
             /*   we know the user is authorized at this point  */
             /*  make the tokens payload avail to other middleware functions  */
                 req.token = decoded

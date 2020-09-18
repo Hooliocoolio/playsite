@@ -8,7 +8,7 @@ const restrict = require('../middleware/restrict')
 
 const router = express.Router()
 
-router.get('/getusers', async (req, res, next) => {
+router.get('/getusers',  restrict('admin'), async (req, res, next) => {
    
   try {
        const users = await db.allUsers()
@@ -61,12 +61,12 @@ router.post('/login', async (req, res, next) => {
     /*  generate token  */
     const token =  jwt.sign({
         userID: user.id,
-        userRole: "basic"
+        userRole: "admin",
         }, process.env.JWT_SECRET)   
       
+    res.cookie("token", token)
     res.status(200).json({ 
-        Message: `Welcome ${user.username}!`,
-        token: token,
+        Message: `Welcome ${user.username}!`
         });
     } catch (err){
         next(err)
