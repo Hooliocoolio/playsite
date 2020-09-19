@@ -21,7 +21,7 @@ function allUsers() {
 
 function findUser(filter) {
     return db('users')
-        .select('id', 'username', 'password')
+        .select('id', 'username', 'password', 'role')
         .where(filter)
 } 
 

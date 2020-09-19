@@ -8,7 +8,7 @@ const restrict = require('../middleware/restrict')
 
 const router = express.Router()
 
-router.get('/getusers',  restrict('admin'), async (req, res, next) => {
+router.get('/getusers',  restrict('superadmin'), async (req, res, next) => {
    
   try {
        const users = await db.allUsers()
@@ -35,7 +35,7 @@ router.post('/register', async (req, res, next) => {
             email
         })
         return res.status(201).json({
-            Message: `${user.username} was created successfully!`
+            Message:" User was created successfully!"
         })
     } catch (err) {
         next(err)
@@ -61,7 +61,7 @@ router.post('/login', async (req, res, next) => {
     /*  generate token  */
     const token =  jwt.sign({
         userID: user.id,
-        userRole: "admin",
+        userRole: user.role,
         }, process.env.JWT_SECRET)   
       
     res.cookie("token", token)
@@ -83,10 +83,6 @@ router.post('/login', async (req, res, next) => {
 //     }
 //     return jwt.sign( payload, secrets.jwtSecret, options)
 // }
-
-
-
-
 
 router.get('/logout', (req, res, next) => {
     try {

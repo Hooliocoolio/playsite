@@ -1,13 +1,11 @@
 const express = require('express')
 const db = require('../models/hacks-model')
- 
- 
 const restrict = require('../middleware/restrict')
 
 
 const router = express.Router()
 
-router.get('/gethacks',  async (req, res, next) => {
+router.get('/gethacks', restrict('basic'), async (req, res, next) => {
    
   try {
        const hacks = await db.getAllHacks()
@@ -18,7 +16,7 @@ router.get('/gethacks',  async (req, res, next) => {
 
 })
 
-router.get('/gethacks/:id', (req, res) => {
+router.get('/gethacks/:id', restrict('basic'),(req, res) => {
   const { id } = req.params;
 
   db.getHackById(id)
@@ -83,7 +81,7 @@ router.put('/update/:id', restrict('admin'), (req, res) => {
 
  
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/delete/:id', restrict('superadmin'), (req, res) => {
   const { id } = req.params;
 
   db.removeHack(id)

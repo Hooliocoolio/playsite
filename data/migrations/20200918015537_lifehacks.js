@@ -1,6 +1,12 @@
 
 exports.up = function(knex, Promise) {
     return knex.schema
+        .createTable('roles', tbl => {
+            tbl.increments('id')
+            tbl.string('name')
+                .unique()
+                .notNullable()
+        })
         .createTable('users', tbl => {
             tbl.increments('id')
             tbl.string('username', 128)
@@ -11,6 +17,11 @@ exports.up = function(knex, Promise) {
                 .notNullable()
             tbl.string('email', 256)
                 .notNullable()
+            tbl.string('role')
+                .notNullable()
+                .references('name')
+                .inTable('roles')
+                .defaultTo('basic')
         })
         .createTable('hacks', tbl => {
             tbl.increments('id')
@@ -28,11 +39,13 @@ exports.up = function(knex, Promise) {
                 .onUpdate('CASCADE')
                 .onDelete('SET NULL')
         })
+        
 };
 
 exports.down = function(knex, Promise) {
     return knex.schema
         .dropTableIfExists('hacks')
         .dropTableIfExists('users')
+        .dropTableIfExists('roles')
   
 };
