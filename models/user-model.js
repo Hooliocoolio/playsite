@@ -26,10 +26,17 @@ function findUser(filter) {
 } 
 
 
+function updateUser(changes, id) {
+    return db('users')
+        .update(changes)
+        .where({ id })
+}
+
 
 module.exports = {
     findById,
     addUser,
     allUsers,
-    findUser
+    findUser,
+    updateUser
 }

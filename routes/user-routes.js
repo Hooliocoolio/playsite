@@ -73,16 +73,34 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
-// function generateToken(user) {
-//     const payload = {
-//         subject: user.id,
-//         username: user.username,
-//     }
-//     const options = {
-//         expiresIn: '12h'
-//     }
-//     return jwt.sign( payload, secrets.jwtSecret, options)
-// }
+
+
+router.put('/update/:id', restrict('superadmin'), (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+  
+    db.findById(id)
+    .then(user => {
+      if (user) {
+        db.updateUser(changes, id)
+        .then(updatedUser => {
+          res.json({ 
+            Success: updatedUser+ " Hack has been updated successfully." 
+          });
+        });
+      } else {
+        res.status(404).json({ 
+          Error: "Could not find Hack with given id. please try another scheme id" 
+        });
+      }
+    })
+    .catch (err => {
+      res.status(500).json({ 
+        Error: "Failed to update Hack. please check your code" 
+      });
+    });
+  });
+  
 
 router.get('/logout', (req, res, next) => {
     try {

@@ -21,7 +21,7 @@ exports.up = function(knex, Promise) {
                 .notNullable()
                 .references('name')
                 .inTable('roles')
-                .defaultTo('basic')
+                
         })
         .createTable('hacks', tbl => {
             tbl.increments('id')
