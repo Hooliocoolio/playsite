@@ -13,7 +13,7 @@ server.use(cookieParser())
 
 server.use('/api', apiRouter)
 
-server.get('/', (req, res) => {
+server.get('/api', (req, res) => {
     res.json('Api is working')
 })
 
