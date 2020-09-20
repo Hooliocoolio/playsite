@@ -21,7 +21,7 @@ router.get('/getusers',  restrict('superadmin'), async (req, res, next) => {
 
 router.post('/register', async (req, res, next) => {
     try {
-        const { username, password, email } = req.body
+        const { username, password, email, role } = req.body
         const user = await db.findUser({ username }).first()
 
         if (user) {
@@ -32,7 +32,8 @@ router.post('/register', async (req, res, next) => {
         const newUser = await db.addUser({
             username,
             password: await bcrypt.hash(password, 12),
-            email
+            email,
+            role
         })
         return res.status(201).json({
             Message:" User was created successfully!"
@@ -78,11 +79,12 @@ router.post('/login', async (req, res, next) => {
 router.put('/update/:id', restrict('superadmin'), (req, res) => {
     const { id } = req.params;
     const changes = req.body;
-  
+
     db.findById(id)
     .then(user => {
       if (user) {
         db.updateUser(changes, id)
+       
         .then(updatedUser => {
           res.json({ 
             Success: updatedUser+ " Hack has been updated successfully." 
