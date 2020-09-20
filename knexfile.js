@@ -20,5 +20,22 @@ module.exports = {
       },
     },
   },
-}
+
  
+  production: {
+    client: "sqlite3",
+    connection: {
+      database: "my_db", //name heroku guives in production, can name whatever you like
+      user: "username",
+      password: "password",
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    useNullAsDefault: true,
+    migrations: {
+      tableName: "knex_migrations",
+    },
+  },
+}
