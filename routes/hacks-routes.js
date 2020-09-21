@@ -16,13 +16,13 @@ router.get('/gethacks', restrict('basic', 'admin', 'superadmin'), async (req, re
 
 })
 
-router.get('/gethacks/:id',(req, res) => {
+router.get('/gethacks/:id', restrict('basic'),(req, res) => {
   const { id } = req.params;
 
   db.getHackById(id)
   .then(hack => {
     if (hack) {
-      res.json(hack);
+      return res.status(200).json(hack);
     } else {
       res.status(404).json({ 
         Error: "Could not find hack with given id. Please check line 23" })
