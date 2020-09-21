@@ -18,7 +18,7 @@ exports.up = function (knex, Promise) {
       tbl.string("post").notNullable();
       tbl.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
       tbl
-        .integer("user_id")
+        .string("user_id")
         .notNullable()
         .unsigned()
         .references("id")
