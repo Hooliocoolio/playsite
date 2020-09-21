@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
             tbl.string('username', 128)
                 .notNullable()
                 .unique()
-                .index()
+                // .index()
             tbl.string('password', 256)
                 .notNullable()
             tbl.string('email', 256)
