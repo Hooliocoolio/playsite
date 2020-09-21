@@ -21,7 +21,7 @@ function findUser(filter) {
 }
 
 function updateUser(changes, id) {
-  return db("users").update({...changes}).where({ id });
+  return db("users").update(changes, password).where({ id });
 }
 
 module.exports = {

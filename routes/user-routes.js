@@ -79,6 +79,7 @@ router.post('/login', async (req, res, next) => {
 router.put('/update/:id', restrict('superuser'), (req, res) => {
     const { id } = req.params;
     const changes = req.body
+    
 
     
 
