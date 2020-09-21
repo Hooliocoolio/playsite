@@ -47,5 +47,7 @@ exports.down = function(knex, Promise) {
         .dropTableIfExists('hacks')
         .dropTableIfExists('users')
         .dropTableIfExists('roles')
+        
+        
   
 };
