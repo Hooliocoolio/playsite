@@ -62,6 +62,7 @@ router.post('/login', async (req, res, next) => {
     /*  generate token  */
     const token =  jwt.sign({
         userID: user.id,
+        username: user.usernme,
         userRole: user.role,
         }, process.env.JWT_SECRET)   
       
@@ -84,7 +85,7 @@ router.put('/update/:id', restrict('superuser'), (req, res) => {
     db.findById(id)
     .then(user => {
       if (user) {
-        db.updateUser(changes, id, )
+        db.updateUser(changes, id)
        
         .then(updatedUser => {
           res.json({ 

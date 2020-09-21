@@ -7,7 +7,7 @@ function findById(id) {
 
 async function addUser(user) {
   const id = uuid.v4();
-  console.log(id)
+   
   await db("users").insert({ ...user, id });
   return findById(id);
 }
@@ -20,8 +20,9 @@ function findUser(filter) {
   return db("users").select("id", "username", "password", "role").where(filter);
 }
 
-function updateUser(changes, id) {
-  return db("users").update(changes, password).where({ id });
+function updateUser(changes,  id) {
+  
+  return db("users").update(changes).where({ id });
 }
 
 
