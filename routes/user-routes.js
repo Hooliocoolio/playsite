@@ -78,12 +78,14 @@ router.post('/login', async (req, res, next) => {
 
 router.put('/update/:id', restrict('superuser'), (req, res) => {
     const { id } = req.params;
-    const changes = req.body;
+    const changes = req.body
+
+    
 
     db.findById(id)
     .then(user => {
       if (user) {
-        db.updateUser(changes, id)
+        db.updateUser(changes, id, password = bcrypt.hash(password, 12), )
        
         .then(updatedUser => {
           res.json({ 
