@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
+    "prestart":"knex migrate:latest",
     "start": "node index.js"
   },
   "repository": {
