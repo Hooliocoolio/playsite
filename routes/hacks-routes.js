@@ -5,7 +5,7 @@ const restrict = require('../middleware/restrict')
 
 const router = express.Router()
 
-router.get('/gethacks', restrict('basic'), async (req, res, next) => {
+router.get('/gethacks', async (req, res, next) => {
    
   try {
        const hacks = await db.getAllHacks()
@@ -16,7 +16,7 @@ router.get('/gethacks', restrict('basic'), async (req, res, next) => {
 
 })
 
-router.get('/gethacks/:id', restrict('basic'), (req, res) => {
+router.get('/gethacks/:id', (req, res) => {
   const { id } = req.params;
 
   db.getHackById(id)
