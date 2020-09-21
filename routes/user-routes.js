@@ -81,44 +81,48 @@ router.put('/update/:id', restrict('superuser'), (req, res) => {
     const changes = req.body
     
 
-    
-
     db.findById(id)
     .then(user => {
       if (user) {
-        db.updateUser(changes, id, password = bcrypt.hash(password, 12), )
+        db.updateUser(changes, id, )
        
         .then(updatedUser => {
           res.json({ 
-            Success: updatedUser+ " Hack has been updated successfully." 
+            Success: updatedUser+ " User has been updated successfully." 
           });
         });
       } else {
         res.status(404).json({ 
-          Error: "Could not find Hack with given id. please try another scheme id" 
+          Error: "Could not find User with given id. please try another user id" 
         });
       }
     })
     .catch (err => {
       res.status(500).json({ 
-        Error: "Failed to update Hack. please check your code" 
+        Error: "Failed to update User. please check your code" 
       });
     });
   });
   
 
-router.get('/logout', (req, res, next) => {
-    try {
-        req.session.destroy((err) => {
-            if (err) {
-                next(err)
-            } else {
-                res.status(204).end()
-            }
-        })
-    } catch (err) {
-        next(err)
-    }
-})
+  router.delete('/delete/:id', restrict('superadmin'), (req, res) => {
+    const { id } = req.params;
+  
+    db.removeUser(id)
+    .then(deleted => {
+      if (deleted) {
+        res.json({ 
+          Deleted: deleted + " User has been successfully deleted." 
+      });
+      } else {
+        res.status(404).json({ 
+          Error: 'Could not find User with given id. Please try another User id.' 
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ Error: 'Failed to delete User. Please check your code' });
+    });
+  });
 
 module.exports = router

@@ -24,10 +24,19 @@ function updateUser(changes, id) {
   return db("users").update(changes, password).where({ id });
 }
 
+
+function removeUser(id){
+  return db('users')
+  .where('id', id)
+  .del()
+  .then(response => (!response ? null : response))
+}
+
 module.exports = {
   findById,
   addUser,
   allUsers,
   findUser,
   updateUser,
+  removeUser
 };
