@@ -16,7 +16,7 @@ router.get('/gethacks', restrict('basic', 'admin', 'superadmin'), async (req, re
 
 })
 
-router.get('/gethacks/:id', restrict('basic'),(req, res) => {
+router.get('/gethacks/:id',(req, res) => {
   const { id } = req.params;
 
   db.getHackById(id)
