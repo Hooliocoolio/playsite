@@ -5,7 +5,7 @@ const restrict = require('../middleware/restrict')
 
 const router = express.Router()
 
-router.get('/gethacks', restrict('basic', 'admin', 'superadmin'), async (req, res, next) => {
+router.get('/gethacks', restrict('basic'), async (req, res, next) => {
    
   try {
        const hacks = await db.getAllHacks()
@@ -16,7 +16,7 @@ router.get('/gethacks', restrict('basic', 'admin', 'superadmin'), async (req, re
 
 })
 
-router.get('/gethacks/:id', restrict('basic'),(req, res) => {
+router.get('/gethacks/:id', restrict('basic'), (req, res) => {
   const { id } = req.params;
 
   db.getHackById(id)
@@ -36,7 +36,7 @@ router.get('/gethacks/:id', restrict('basic'),(req, res) => {
 
 
 
-router.post('/newhack', restrict('admin'), (req, res ) => {
+router.post('/newhack', restrict('basic'), (req, res ) => {
     const hackData = req.body
     db.addHack(hackData)
     .then(hack => {
@@ -52,7 +52,7 @@ router.post('/newhack', restrict('admin'), (req, res ) => {
 })
 
 
-router.put('/update/:id', restrict('admin'), (req, res) => {
+router.put('/update/:id', restrict('basic'), (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
@@ -81,7 +81,7 @@ router.put('/update/:id', restrict('admin'), (req, res) => {
 
  
 
-router.delete('/delete/:id', restrict('superadmin'), (req, res) => {
+router.delete('/delete/:id', restrict('admin'), (req, res) => {
   const { id } = req.params;
 
   db.removeHack(id)
