@@ -5,7 +5,7 @@ const restrict = require('../middleware/restrict')
 
 const router = express.Router()
 
-router.get('/gethacks', restrict('basic'), async (req, res, next) => {
+router.get('/gethacks', restrict('basic', 'admin', 'superadmin'), async (req, res, next) => {
    
   try {
        const hacks = await db.getAllHacks()
