@@ -7,6 +7,7 @@ function findById(id) {
 
 async function addUser(user) {
   const id = uuid.v4();
+  console.log(id)
   await db("users").insert({ ...user, id });
   return findById(id);
 }
