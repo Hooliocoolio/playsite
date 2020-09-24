@@ -1,14 +1,14 @@
 const express = require('express')
-const db = require('../models/user-model')
+const db = require('../models/um')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const secrets = require('./config/secrets')
 const restrict = require('../middleware/restrict')
 
 
-const router = express.Router()
+const ur = express.Router()
 
-router.get('/getusers',  restrict('superadmin'), async (req, res, next) => {
+ur.get('/getusers',  restrict('superadmin'), async (req, res, next) => {
    
   try {
        const users = await db.allUsers()
@@ -19,7 +19,7 @@ router.get('/getusers',  restrict('superadmin'), async (req, res, next) => {
 
 })
 
-router.post('/register', async (req, res, next) => {
+ur.post('/register', async (req, res, next) => {
     try {
         const { username, password, email, role } = req.body
         const user = await db.findUser({ username }).first()
@@ -43,7 +43,7 @@ router.post('/register', async (req, res, next) => {
     }
 })
 
-router.post('/login', async (req, res, next) => {
+ur.post('/login', async (req, res, next) => {
     try {
         const { username, password } = req.body
         const user = await db.findUser({ username }).first()
@@ -77,7 +77,7 @@ router.post('/login', async (req, res, next) => {
 
 
 
-router.put('/update/:id', restrict('superuser'), (req, res) => {
+ur.put('/update/:id', restrict('superuser'), (req, res) => {
     const { id } = req.params;
     const changes = req.body
     
@@ -106,7 +106,7 @@ router.put('/update/:id', restrict('superuser'), (req, res) => {
   });
   
 
-  router.delete('/delete/:id', restrict('superadmin'), (req, res) => {
+  ur.delete('/delete/:id', restrict('superadmin'), (req, res) => {
     const { id } = req.params;
   
     db.removeUser(id)
@@ -126,4 +126,4 @@ router.put('/update/:id', restrict('superuser'), (req, res) => {
     });
   });
 
-module.exports = router
+module.exports = ur
