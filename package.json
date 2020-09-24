@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js",
-    "prestart":"knex migrate:latest",
-    "start": "node index.js"
+    "prestart":"knex migrate:latest"
   },
   "repository": {
     "type": "git",
