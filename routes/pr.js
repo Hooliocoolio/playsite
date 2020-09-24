@@ -12,7 +12,7 @@ const pr = express.Router()
 //-----------------------------------------------------------------------------
 pr.get('/getall', async (req, res, next) => {
   try {
-       const posts = await db.getAllHowtos()
+       const posts = await db.getAllPosts()
         res.status(200).json(posts)
   }catch (err){
       next(err)
