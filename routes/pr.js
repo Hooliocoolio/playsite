@@ -46,7 +46,7 @@ pr.get('/getpost/:id', (req, res) => {
 //-----------------------------------------------------------------------------
 pr.post('/new', restrict('basic'), (req, res ) => {
     const postData = req.body
-    db.addHowto(postData)
+    db.addPost(postData)
     .then(post => {
         res.status(201).json({
             Success: "Your post was added successfully"
