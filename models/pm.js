@@ -1,35 +1,35 @@
 const db = require('../data/dbconfig')
 
 module.exports = {
-    getAllHacks,
-    getHackById,
-    addHack,
-    updateHack,
-    removeHack
+    getAllPosts,
+    getPostById,
+    addPost,
+    updatePost,
+    removePost
 }
 
-function getAllHacks() {
-    return db('hacks')
+function getAllPosts() {
+    return db('posts')
 }
 
-function getHackById(id) {
-    return db('hacks')
+function getPostById(id) {
+    return db('posts')
         .where('id', id)
     }
 
-function addHack(hack) {
-    return db("hacks")
-        .insert(hack)
+function addPost(post) {
+    return db("posts")
+        .insert(post)
 }
 
-function updateHack(changes, id) {
-    return db('hacks')
+function updatePost(changes, id) {
+    return db('posts')
         .update(changes)
         .where({ id })
 }
 
-function removeHack(id){
-    return db('hacks')
+function removePost(id){
+    return db('posts')
     .where('id', id)
     .del()
     .then(response => (!response ? null : response))
