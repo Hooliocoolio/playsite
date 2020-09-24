@@ -1,106 +1,117 @@
 const express = require('express')
 const db = require('../models/pm')
+
+/* restrict middleware  */
 const restrict = require('../middleware/restrict')
 
-
+/*  How 2 router  */
 const pr = express.Router()
 
-pr.get('/getposts', async (req, res, next) => {
-   
+//-----------------------------------------------------------------------------
+// Returns all Howto posts all public can recieve data
+//-----------------------------------------------------------------------------
+pr.get('/getall', async (req, res, next) => {
   try {
-       const posts = await db.getAllPosts()
-        res.status(200).json(posts)
+       const howtos = await db.getAllHowtos()
+        res.status(200).json(howtos)
   }catch (err){
       next(err)
   }
-
 })
 
-pr.get('/getposts/:id', (req, res) => {
+//-----------------------------------------------------------------------------
+// Returns howto post by Id
+//-----------------------------------------------------------------------------
+pr.get('/gethowto/:id', (req, res) => {
   const { id } = req.params;
-
-  db.getPostById(id)
-  .then(post => {
-    if (post) {
-      return res.status(200).json(post);
+  db.getHowtoById(id)
+  .then(howto => {
+    if (howto) {
+      return res.status(200).json(howto);
     } else {
       res.status(404).json({ 
-        Error: "Could not find post with given id. Please check line 23" })
+        Error: "Could not find howto with given id. Please check line 23" 
+      })
     }
   })
   .catch(err => {
-    res.status(500).json({ message: 'Failed to get post. Please check line 23' });
+    res.status(500).json({ 
+      Message: 'Failed to get howto. Please check line 23' 
+    });
   });
 });
 
-
-
-
-pr.post('/newpost', restrict('basic'), (req, res ) => {
-    const postData = req.body
-    db.addPost(postData)
-    .then(post => {
+//-----------------------------------------------------------------------------
+// Posts a new howto; User must have minimal basic role
+//-----------------------------------------------------------------------------
+pr.post('/new', restrict('basic'), (req, res ) => {
+    const howtoData = req.body
+    db.addHowto(howtoData)
+    .then(howto => {
         res.status(201).json({
-            Success: "Your post was added successfully",
-            post
+            Success: "Your howto was added successfully"
         })
     })
     .catch (err => {
         res.status(500).json({
-            Error: "Failed to add your post"
+            Error: "Failed to add your lifehack"
         })
     }) 
 })
 
-
+//-----------------------------------------------------------------------------
+// Updates howto post user has to have minimal basic role
+//-----------------------------------------------------------------------------
 pr.put('/update/:id', restrict('basic'), (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  db.getPostById(id)
-  .then(post => {
-    if (post) {
-      db.updatePost(changes, id)
-      .then(updatedPost => {
+  db.getHowtoById(id)
+  .then(howto => {
+    if (howto) {
+      db.updateHowto(changes, id)
+      .then(updatedHowto => {
         res.json({ 
-          Success: updatedPost+ " Post has been updated successfully." 
+          Success: updatedHowto+ " howto has been updated successfully." 
         });
       });
     } else {
       res.status(404).json({ 
-        Error: "Could not find Post with given id. please try another scheme id" 
+        Error: "Could not find howto with given id. please try another scheme id" 
       });
     }
   })
   .catch (err => {
     res.status(500).json({ 
-      Error: "Failed to update Post. please check your code" 
+      Error: "Failed to update howto. please check your code" 
     });
   });
 });
 
-
- 
-
+//-----------------------------------------------------------------------------
+// Updates howto post user has to have admin role
+//-----------------------------------------------------------------------------
 pr.delete('/delete/:id', restrict('admin'), (req, res) => {
   const { id } = req.params;
 
-  db.removePost(id)
+  db.removeHowto(id)
   .then(deleted => {
     if (deleted) {
       res.json({ 
-        Deleted: deleted + " Post has been successfully deleted." 
+        Deleted: deleted + " howto has been successfully deleted." 
     });
     } else {
       res.status(404).json({ 
-        Error: 'Could not find Post with given id. Please try another Post id.' 
+        Error: 'Could not find howto with given id. Please try another howto id.' 
       });
     }
   })
   .catch(err => {
-    res.status(500).json({ Error: 'Failed to delete Post. Please check your code' });
+    res.status(500).json({ 
+      Error: 'Failed to delete howto. Please check your code' 
+    });
   });
 });
 
-
+//-----------------------------------------------------------------------------
 module.exports = pr
